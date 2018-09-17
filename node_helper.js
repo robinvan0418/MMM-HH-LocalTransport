@@ -139,7 +139,8 @@ module.exports = NodeHelper.create({
 					departureTimestamp: trains.timeOffset,
 					delay: delay,
 					name: trains.line.name,
-					to: trains.line.direction
+					to: trains.line.direction,
+					type: trains.line.type
 
 				});
 			}

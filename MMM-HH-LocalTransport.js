@@ -87,17 +87,24 @@ Module.register("MMM-HH-LocalTransport",{
 		    }
 			row.appendChild(depCell);
 
-                        if(trains.delay) {
-                            var delayCell = document.createElement("td");
-                            delayCell.className = "delay red";
-                            delayCell.innerHTML = " (+" + trains.delay + ")";
-                            row.appendChild(delayCell);
-                        } else {
-                            var delayCell = document.createElement("td");
-                            delayCell.className = "delay red";
-                            delayCell.innerHTML = trains.delay;
-                            row.appendChild(delayCell);
-                        }
+            if(trains.delay) {
+                var delayCell = document.createElement("td");
+                delayCell.className = "delay red";
+                delayCell.innerHTML = " (+" + trains.delay + ")";
+                row.appendChild(delayCell);
+            } else {
+                var delayCell = document.createElement("td");
+                delayCell.className = "delay red";
+                delayCell.innerHTML = trains.delay;
+                row.appendChild(delayCell);
+            }
+			imgUrl = "http://www.geofox.de/icon_service/vehicle?types=" + trains.type + "&height=60";
+			trainIcon = document.createElement("IMG");
+			trainIcon.src= imgUrl;
+			var trainIconCell = document.createElement("td");
+			trainIconCell.innerHTML = trainIcon;
+			trainIconCell.className = "align-right";
+			trainIconCell.height = 30
 
 			var trainNameCell = document.createElement("td");
 			trainNameCell.innerHTML = trains.name;
