@@ -19,7 +19,7 @@ Module.register("MMM-HH-LocalTransport",{
 		animationSpeed: 2000,
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
-    initialLoadDelay: 0, // start delay seconds.
+		initialLoadDelay: 0, // start delay seconds.
 		apiBase: 'http://api-prod.geofox.de/gti/public/',
 		customAPI: false, // Set to true if signature is generated via external API
 		customUrl: 'https://custom-api.url.de/apiEndpoint', // change to API endpoint (receiving payload and returns siganture)
@@ -28,7 +28,7 @@ Module.register("MMM-HH-LocalTransport",{
 		apiUser: 'name',
 		Realtime: true,
 		version: 27, // HVV API version
-    id: "Master:9910910", // HH HBF
+		id: "Master:9910910", // HH HBF
 	},
 
 	// Define required scripts.
@@ -40,7 +40,7 @@ Module.register("MMM-HH-LocalTransport",{
 	start: function() {
 		Log.info("Starting module: " + this.name);
 		this.sendSocketNotification('CONFIG', this.config);
-        this.trains = [];
+		this.trains = [];
 		this.loaded = false;
 		this.updateTimer = null;
 
@@ -84,20 +84,20 @@ Module.register("MMM-HH-LocalTransport",{
 			}
 			else {
 			depCell.innerHTML = trains.departureTimestamp + " min";
-		    }
+			}
 			row.appendChild(depCell);
 
-            if(trains.delay) {
-                var delayCell = document.createElement("td");
-                delayCell.className = "delay red";
-                delayCell.innerHTML = " (+" + trains.delay + ")";
-                row.appendChild(delayCell);
-            } else {
-                var delayCell = document.createElement("td");
-                delayCell.className = "delay red";
-                delayCell.innerHTML = trains.delay;
-                row.appendChild(delayCell);
-            }
+			if(trains.delay) {
+				var delayCell = document.createElement("td");
+				delayCell.className = "delay red";
+				delayCell.innerHTML = " (+" + trains.delay + ")";
+				row.appendChild(delayCell);
+			} else {
+				var delayCell = document.createElement("td");
+				delayCell.className = "delay red";
+				delayCell.innerHTML = trains.delay;
+				row.appendChild(delayCell);
+			}
 			imgUrl = "http://www.geofox.de/icon_service/vehicle?types=" + trains.type + "&height=60";
 			trainIcon = document.createElement("IMG");
 			trainIcon.src= imgUrl;

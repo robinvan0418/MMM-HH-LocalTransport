@@ -13,20 +13,20 @@ const unirest = require('unirest');
 module.exports = NodeHelper.create({
 
 		start: function () {
-	    this.started = false;
-	  	},
+			this.started = false;
+		},
 
 			/* createSimpleToken(payload)
 		 * Create authentication for custom API
 		 */
 			createSimpleToken: function(payload) {
-					var hmac = forge.hmac.create();
-			    hmac.start('sha1', this.config.customAPIToken);
-			    hmac.update(forge.util.encodeUtf8(JSON.stringify(payload)));
-			    var hash = hmac.digest().toHex();
-			    var token = new Buffer(hash, 'hex').toString('base64');
+				var hmac = forge.hmac.create();
+				hmac.start('sha1', this.config.customAPIToken);
+				hmac.update(forge.util.encodeUtf8(JSON.stringify(payload)));
+				var hash = hmac.digest().toHex();
+				var token = new Buffer(hash, 'hex').toString('base64');
 					//console.log("token: " + token);
-			    return token;
+				return token;
 		},
 	  	/* getSignature(payload)
 		 * Create authentication for HVV (Geofox) API
@@ -36,21 +36,21 @@ module.exports = NodeHelper.create({
 		  	return new Promise((resolve) => {
 				// Enable signature generating via external API, so you can share logins
 				if (this.config.customAPI) {
-						var token = this.createSimpleToken(payload);
-					  unirest.post(this.config.customUrl)
-						.headers({
-				      'Content-Type': 'application/json;charset=UTF-8',
-				      'auth-user': this.config.apiUser,
-				      'token': token
-				    })
-					  .send(payload)
-					  .end(function (response) {
-					  if (response.error) { console.log("Error: ", response.error); }
-					  else {
-					  resolve(response.body);
-					  }
-					  });
-					  }
+					var token = this.createSimpleToken(payload);
+					unirest.post(this.config.customUrl)
+					.headers({
+						'Content-Type': 'application/json;charset=UTF-8',
+						'auth-user': this.config.apiUser,
+						'token': token
+					})
+					.send(payload)
+					.end(function (response) {
+						if (response.error) { console.log("Error: ", response.error); }
+						else {
+							resolve(response.body);
+						}
+					});
+				}
 				// Otherwise use standard solution with APIkey & user present
 				else {
 					var hmac = forge.hmac.create();
@@ -71,41 +71,41 @@ module.exports = NodeHelper.create({
 			var self = this;
 			var retry = true;
 			var data = {
-			  "station": {
-			  "type": "STATION",
-			  "id": this.config.id,
-			  },
-			   "time": {
-			   },
-			   "maxList": this.config.maximumEntries,
-			   "useRealtime": this.config.useRealtime,
-			   "maxTimeOffset": this.config.maxTimeOffset,
-				 "version": this.config.version,
-				 "useRealtime": this.config.Realtime
+				"station": {
+				"type": "STATION",
+				"id": this.config.id,
+				},
+				"time": {
+				},
+				"maxList": this.config.maximumEntries,
+				"useRealtime": this.config.useRealtime,
+				"maxTimeOffset": this.config.maxTimeOffset,
+				"version": this.config.version,
+				"useRealtime": this.config.Realtime
 			};
 				self.getSignature(data).then((sig) => {
-		    unirest.post(url)
-		    .headers({
-		      'Content-Type': 'application/json;charset=UTF-8',
-		      'geofox-auth-user': this.config.apiUser,
-		      'geofox-auth-signature': sig
-		    })
-		    .send(JSON.stringify(data))
-		    .end(function (r) {
-		    	if (r.error) {
-		    		self.updateDom(this.config.animationSpeed);
-		    		//console.log(self.name + " : " + r.error);
-		    		retry = false;
-		    	}
-		    	else {
-		    		//console.log("body: ", JSON.stringify(r.body));
-		    		self.processTrains(r.body);
-		    	}
+			unirest.post(url)
+			.headers({
+				'Content-Type': 'application/json;charset=UTF-8',
+				'geofox-auth-user': this.config.apiUser,
+				'geofox-auth-signature': sig
+			})
+			.send(JSON.stringify(data))
+			.end(function (r) {
+				if (r.error) {
+					self.updateDom(this.config.animationSpeed);
+					//console.log(self.name + " : " + r.error);
+					retry = false;
+				}
+				else {
+					//console.log("body: ", JSON.stringify(r.body));
+					self.processTrains(r.body);
+				}
 
-		    	if (retry) {
+				if (retry) {
 					self.scheduleUpdate((self.loaded) ? -1 : this.config.retryDelay);
 				}
-		    });
+			});
 			});
 		},
 
@@ -166,16 +166,16 @@ module.exports = NodeHelper.create({
 		},
 
 		parseDate: function(input) {
-		  	var parts = input.match(/(\d+)/g);
-		  	return new Date(parts[2], parts[1]-1, parts[0]);
+			var parts = input.match(/(\d+)/g);
+			return new Date(parts[2], parts[1]-1, parts[0]);
 		},
 
 		socketNotificationReceived: function(notification, payload) {
-		  const self = this;
-		  if (notification === 'CONFIG' && this.started == false) {
-		    this.config = payload;
-		    this.started = true;
-		    self.scheduleUpdate(this.config.initialLoadDelay);
-		    };
-		  }
+			const self = this;
+			if (notification === 'CONFIG' && this.started == false) {
+				this.config = payload;
+				this.started = true;
+				self.scheduleUpdate(this.config.initialLoadDelay);
+			};
+		}
 });

@@ -16,12 +16,12 @@ function getSignature(text) {
 
 function getStationId() {
     data = {
-	"coordinateType": "EPSG_4326",
-	"maxList": '1',
-	"theName": {
-	    "name": name,
-	    "type": "STATION"
-	}
+    "coordinateType": "EPSG_4326",
+    "maxList": '1',
+    "theName": {
+        "name": name,
+        "type": "STATION"
+    }
     };
     var sig = getSignature(data);
     unirest.post('http://api-test.geofox.de/gti/public/checkName')
