@@ -2,7 +2,7 @@
 
 # Get API key
 
-You need to obtain your API key here: http://www.hvv.de/fahrplaene/fahrplanauskunft/datenschnittstelle/
+You need to obtain your API key here: https://www.hvv.de/fahrplaene/abruf-fahrplaninfos/datenabruf/
 
 # Install
 
